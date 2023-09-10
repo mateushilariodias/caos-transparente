@@ -21,7 +21,7 @@ app.post('/processa_formulario', (req, res) => {
             // Se o arquivo não existir, inicializa com um array vazio
             return fs.writeFile('submissions.json', JSON.stringify([formData], null, 2), error => {
                 if (error) throw error;
-                res.send('Dados salvos com sucesso!');
+                res.send(buildSuccessPage());
             });
         } else if (err) {
             throw err;
@@ -33,10 +33,24 @@ app.post('/processa_formulario', (req, res) => {
 
         fs.writeFile('submissions.json', JSON.stringify(json, null, 2), error => {
             if (error) throw error;
-            res.send('Dados salvos com sucesso!');
+            res.send(buildSuccessPage());
         });
     });
 });
+
+function buildSuccessPage() {
+    return `
+    <html>
+        <head>
+            <title>Success</title>
+        </head>
+        <body>
+            <h1>Dados salvos com sucesso!</h1>
+            <button onclick="location.href='/'">Voltar à página principal</button>
+        </body>
+    </html>
+    `;
+}
 
 const PORT = 3000;
 app.listen(PORT, () => {
